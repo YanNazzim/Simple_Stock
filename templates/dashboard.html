@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvenStory</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body id="InvenStory_Body">
+    <form action="/">
+        <button type="submit" class="btn btn-danger">Sign Out</button>
+    </form>
+    
+    <form action="/search" method="GET" class="form-inline mt-3">
+        <input id="searchTXT" type="text" class="form-control mr-2" name="query" placeholder="Search...">
+        <button id="searchBTN" type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <h1 id="mainH1"> <Strong>How can I help?</Strong> </h1>
+
+    <div class="d-flex justify-content-center">
+
+        <a id="indexBTN" href="{{ url_for('clients') }}" class="btn btn-primary">Clients</a>
+        <a id="indexBTN" href="{{ url_for('inventory') }}" class="btn btn-primary">Inventory</a>
+        <a id="indexBTN" href="{{ url_for('manage_users') }}" class="btn btn-primary">Manage Users</a>
+    </div>
+
+</body>
+</html>

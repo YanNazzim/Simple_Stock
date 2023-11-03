@@ -1,0 +1,67 @@
+html
+
+body {
+    display: block;
+    width: 100vw;
+    background-color: rgb(41, 44, 47);
+}
+
+h1, h2 {
+    text-align: center;
+    color: white !important;
+}
+
+#mainH1 {
+    margin-top: 50px;
+}
+
+label {
+    color: white !important;
+    font-weight: bolder !important;
+    font-size: large;
+    margin-left: 15px;
+}
+
+#name, #description, #price ,#quantity, 
+#phoneNumber, #address, #balance, #username, #pin {
+    display: flex;
+    width: 75%;
+    margin: auto;
+    justify-content: center;
+}
+
+#indexBTN {
+    margin: 9px;
+    width: 33%;
+    height: 45px;
+    margin-top: 100px;
+    font-size: larger;
+    font-weight: bold;
+    display: flexbox;
+}
+#BTN {
+    padding: 10px;
+    width: 200px;    
+    font-size: larger;
+    font-weight: bold;
+    display: inline-block;
+}
+
+th {
+    border-bottom: solid black 2px;
+    color: white;
+}
+
+#tdOdd {
+    background-color: #6f94a7;
+    padding: 5px;
+    color: black !important;
+    border: solid white 3px;
+}
+
+#tdEven {
+    background-color: #bbbbbb;
+    padding: 5px;
+    color: black !important;
+    border: solid white 3px;
+}

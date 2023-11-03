@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <a id="BTN" href="{{ url_for('dashboard') }}" class="btn btn-primary">Back to Home</a>
+
+    <h1><strong>Edit Product</strong></h1>
+
+    <form id="editProductForm" method="POST" action="/edit_product/{{ product[0] }}">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ product[1] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" id="description" name="description" value="{{ product[2] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="price">Price ($)</label>
+            <input type="number" step=".01" min=".01" class="form-control" id="price" name="price" value="{{ product[3] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" class="form-control" id="quantity" name="quantity" value="{{ product[4] }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</body>
+</html>

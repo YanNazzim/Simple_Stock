@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body id="InvenStory_Body">
+    <form action="/">
+        <button type="submit" class="btn btn-danger">Sign Out</button>
+    </form>
+
+    <form action="/search" method="GET" class="form-inline mt-3">
+        <input type="text" class="form-control mr-2" name="query" placeholder="Search..." value="{{ query }}">
+        <button type="submit" class="btn btn-primary">Search</button>
+        <a href="/dashboard" class="btn btn-danger ml-2">Cancel</a>
+    </form>
+
+    <h1><strong>Search Results</strong></h1>
+
+    {% if client_results %}
+        <h2>Clients</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Client ID</th>
+                    <th>Name</th>
+                    <th>Phone Number</th>
+                    <th>Address</th>
+                    <th>Balance</th>
+                    <th>Last Payment Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for client in client_results %}
+                    <tr>
+                        <td id="tdOdd"><strong>{{ client[0] }}</strong></td>
+                        <td id="tdEven">
+                                <strong>{{ client[1] }}</strong>
+                        </td>                             <td id="tdOdd"><strong>{{ client[2] }}</strong></td>
+                        <td id="tdOdd"><strong>{{ client[3] }}</strong></td>
+                        <td id="tdEven"><strong>{{ client[4] }}</strong></td>
+                        <td id="tdOdd"><strong>{{ client[5] }}</strong></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    {% if product_results %}
+        <h2>Products</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in product_results %}
+                    <tr>
+                        <td id="tdOdd"><strong>{{ product[0] }}</strong></td>
+                        <td id="tdEven">
+                            <a href="{{ url_for('edit_product', product_id=product[0]) }}">
+                              <strong>{{ product[1] }}</strong>
+                              </a>
+                          </td>                        <td id="tdOdd"><strong>{{ product[2] }}</strong></td>
+                        <td id="tdEven"><strong>{{ product[3] }}</strong></td>
+                        <td id="tdOdd"><strong>{{ product[4] }}</strong></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</body>
+</html>
