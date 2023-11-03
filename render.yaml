@@ -1,2 +1,2 @@
 buildCommand: python -m pip install -r requirements.txt
-startCommand: gunicorn -b 0.0.0.0:8080 Simple_Stock:app
+startCommand: gunicorn -b 0.0.0.0:8080 SimpleStock:app
