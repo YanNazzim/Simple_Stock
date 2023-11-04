@@ -15,16 +15,16 @@ def login():
         username = request.form['username']
         pin = request.form['pin']
 
-        # Query the database to get the user's pin
         user_pin = get_pin_for_username(username)
 
-        if user_pin == pin:
+        if user_pin is not None and user_pin == pin:
             return render_template('dashboard.html')
         else:
-            return f"An error occurred: Invalid credentials. Please try again."
+            app.logger.error(f"Invalid credentials for username: {username}")
+            return "Invalid credentials. Please try again."
 
-    # Render the login page for GET requests
     return render_template('login.html')
+
 
 
 @app.route('/logout', methods=['POST'])
