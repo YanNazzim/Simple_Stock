@@ -49,7 +49,6 @@ def register_user():
 
 @app.route('/dashboard')
 def dashboard():
-    commit_to_github()
     return render_template('dashboard.html')
 
 @app.route('/search', methods=['GET'])
