@@ -49,7 +49,6 @@ def update_database_on_s3():
     else:
         print("Failed to update database on S3. Please check for errors.")
 
-
 def search_clients(query):
     conn = connect_db()
     cursor = conn.cursor()

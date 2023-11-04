@@ -99,6 +99,9 @@ def add_product():
         # Remember to handle exceptions
         add_product_to_inventory(name, description, price, quantity)
         
+        # Update the database on S3 after adding the product
+        update_database_on_s3()
+        
         return redirect(url_for('inventory'))
     except Exception as e:
         return f"An error occurred: {e}"
@@ -107,6 +110,9 @@ def add_product():
 def delete_product(product_id):
     result = delete_product_by_id(product_id)
     if result is True:
+        # Update the database on S3 after deleting the product
+        update_database_on_s3()
+        
         return redirect(url_for('inventory'))  # Successful deletion, redirect to inventory page
     else:
         return f"An error occurred: {result}"  # Display error message
@@ -122,6 +128,9 @@ def edit_product(product_id):
         try:
             update_product(product_id, name, description, price, quantity)
 
+            # Update the database on S3 after editing the product
+            update_database_on_s3()
+            
             return redirect(url_for('inventory'))
         except Exception as e:
             return f"An error occurred: {e}"
@@ -141,6 +150,10 @@ def add_client():
         
         try:
             add_client_to_db(name, phone_number, address, balance)
+            
+            # Update the database on S3 after adding the client
+            update_database_on_s3()
+            
             return redirect(url_for('clients', client_id=get_last_client_id()))
         except Exception as e:
             return f"An error occurred: {e}"
@@ -159,6 +172,10 @@ def get_last_client_id():
 def delete_client(client_id):
     try:
         delete_client_from_db(client_id)
+        
+        # Update the database on S3 after deleting the client
+        update_database_on_s3()
+        
         return redirect(url_for('clients'))
     except Exception as e:
         return f"An error occurred: {e}"
@@ -173,9 +190,12 @@ def make_payment(client_id, payment_amount):
         if client is not None:
             new_balance = client[4] - payment_amount
             update_client_balance(client_id, new_balance)
+            
+            # Update the database on S3 after making the payment
+            update_database_on_s3()
+            
             return "Payment successful", 200
         else:
             return "Client not found", 404
     except Exception as e:
         return f"An error occurred: {e}", 500
-
