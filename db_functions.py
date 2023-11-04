@@ -1,53 +1,51 @@
-import boto3
 import sqlite3
-from botocore.exceptions import NoCredentialsError
 
-# Define your S3 bucket and database file name
-S3_BUCKET = 'simplestock-db'
-DATABASE_FILE = 'SimpleStock.db'
+import requests
 
-def get_s3_client():
-    return boto3.client('s3')
+def commit_to_github():
+    # Define GitHub repository details
+    repo_owner = "YanNazzim"
+    repo_name = "Simple_Stock"
+    file_path = "/SimpleStock.db"
+    commit_message = "Updated database"
+    branch = "main"
 
-def download_database_from_s3():
-    try:
-        s3 = get_s3_client()
-        s3.download_file(S3_BUCKET, DATABASE_FILE, DATABASE_FILE)
-        return True
-    except NoCredentialsError as e:
-        print(f"Error: {e}. Please provide valid AWS credentials.")
-        return False
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return False
+    # Set up authentication using your personal access token
+    personal_access_token = "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"
+    headers = {"Authorization": f"token {personal_access_token}"}
 
-def upload_database_to_s3():
-    try:
-        s3 = get_s3_client()
-        s3.upload_file(DATABASE_FILE, S3_BUCKET, DATABASE_FILE)
-        return True
-    except NoCredentialsError as e:
-        print(f"Error: {e}. Please provide valid AWS credentials.")
-        return False
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return False
+    # Read the SQLite file
+    with open('SimpleStock.db', 'rb') as file:
+        content = file.read()
+
+    # Define the API endpoint for creating a new commit
+    commit_url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{file_path}"
+
+    # Get the current SHA for the file
+    response = requests.get(commit_url, headers=headers)
+    response.raise_for_status()
+    current_sha = response.json()["sha"]
+
+    # Create a new commit with the updated database file
+    response = requests.put(commit_url, headers=headers, json={
+        "message": commit_message,
+        "content": content.decode('utf-8').encode('base64').decode('utf-8'),
+        "branch": branch,
+        "sha": current_sha
+    })
+
+    if response.status_code == 200:
+        print("Changes committed to GitHub successfully.")
+    else:
+        print(f"Failed to commit changes to GitHub. Status code: {response.status_code}")
+
 
 def connect_db():
-    if not download_database_from_s3():
-        return None
-
     try:
-        return sqlite3.connect(DATABASE_FILE, timeout=10)
+        return sqlite3.connect('SimpleStock.db', timeout=10)
     except sqlite3.Error as e:
         print(f"An error occurred while connecting to the database: {e}")
         return None
-
-def update_database_on_s3():
-    if upload_database_to_s3():
-        print("Database updated on S3 successfully.")
-    else:
-        print("Failed to update database on S3. Please check for errors.")
 
 def search_clients(query):
     conn = connect_db()
