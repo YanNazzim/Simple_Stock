@@ -1,4 +1,5 @@
-Flask
-gunicorn
-requests
-subprocess
+fastapi
+uvicorn
+http.client
+urllib
+sqlite3

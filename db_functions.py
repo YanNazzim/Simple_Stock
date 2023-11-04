@@ -1,40 +1,4 @@
 import sqlite3
-from github3 import login
-import requests
-
-def commit_to_github():
-    # Define your GitHub repository details and commit message
-    repo_owner = "YanNazzim"
-    repo_name = "Simple_Stock"
-    file_path = "SimpleStock.db"
-    commit_message = "Updated database"
-    branch = "main"
-    personal_access_token = "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"  # Replace with your own token
-
-    # Connect to GitHub using your personal access token
-    gh = login(token=personal_access_token)
-
-    # Get the repository
-    repo = gh.repository(repo_owner, repo_name)
-
-    # Read the SQLite file
-    with open(file_path, 'rb') as file:
-        content = file.read()
-
-    # Get the current SHA for the file
-    current_sha = repo.contents(file_path).sha
-
-    # Create a new commit with the updated database file
-    repo.update_file(
-        path=file_path,
-        message=commit_message,
-        content=content,
-        sha=current_sha,
-        branch=branch
-    )
-
-    return "Changes committed to GitHub successfully."
-
 
 def connect_db():
     try:
@@ -124,6 +88,14 @@ def get_client_by_id(client_id):
     finally:
         if conn:
             conn.close()
+
+def get_last_client_id():
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute('SELECT MAX(ClientID) FROM Clients')
+    last_client_id = cursor.fetchone()[0]
+    conn.close()
+    return last_client_id
 
 
 def get_all_inventory():
