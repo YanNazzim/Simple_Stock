@@ -35,18 +35,6 @@ def get_product_by_id(product_id):
         print(f"An error occurred: {e}")
         return None
 
-def get_client_by_id(client_id):
-    try:
-        conn = connect_db()
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM Clients WHERE ClientID = ?', (client_id,))
-        client = cursor.fetchone()
-        conn.close()
-        return client
-    except sqlite3.Error as e:
-        print(f"An error occurred: {e}")
-        return None
-
 def get_pin_for_username(username):
     conn = connect_db()
     cursor = conn.cursor()
