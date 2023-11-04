@@ -1,5 +1,4 @@
 from flask import Flask, redirect, render_template, request, url_for
-import subprocess
 from db_functions import *
 
 app = Flask(__name__)
@@ -11,9 +10,9 @@ def index():
 from flask import render_template, redirect, url_for
 
 @app.route('/commit_to_github', methods=['POST'])
-def commit_to_github():
-    subprocess.call(['.git/hooks/post-commit'])
-    return redirect(url_for('dashboard'))
+def commit_to_github_route():
+    return commit_to_github()
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

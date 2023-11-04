@@ -1,43 +1,39 @@
 import sqlite3
-
+from github3 import login
 import requests
 
 def commit_to_github():
-    # Define GitHub repository details
+    # Define your GitHub repository details and commit message
     repo_owner = "YanNazzim"
     repo_name = "Simple_Stock"
-    file_path = "/SimpleStock.db"
+    file_path = "SimpleStock.db"
     commit_message = "Updated database"
     branch = "main"
+    personal_access_token = "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"  # Replace with your own token
 
-    # Set up authentication using your personal access token
-    personal_access_token = "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"
-    headers = {"Authorization": f"token {personal_access_token}"}
+    # Connect to GitHub using your personal access token
+    gh = login(token=personal_access_token)
+
+    # Get the repository
+    repo = gh.repository(repo_owner, repo_name)
 
     # Read the SQLite file
-    with open('SimpleStock.db', 'rb') as file:
+    with open(file_path, 'rb') as file:
         content = file.read()
 
-    # Define the API endpoint for creating a new commit
-    commit_url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/contents/{file_path}"
-
     # Get the current SHA for the file
-    response = requests.get(commit_url, headers=headers)
-    response.raise_for_status()
-    current_sha = response.json()["sha"]
+    current_sha = repo.contents(file_path).sha
 
     # Create a new commit with the updated database file
-    response = requests.put(commit_url, headers=headers, json={
-        "message": commit_message,
-        "content": content.decode('utf-8').encode('base64').decode('utf-8'),
-        "branch": branch,
-        "sha": current_sha
-    })
+    repo.update_file(
+        path=file_path,
+        message=commit_message,
+        content=content,
+        sha=current_sha,
+        branch=branch
+    )
 
-    if response.status_code == 200:
-        print("Changes committed to GitHub successfully.")
-    else:
-        print(f"Failed to commit changes to GitHub. Status code: {response.status_code}")
+    return "Changes committed to GitHub successfully."
 
 
 def connect_db():
