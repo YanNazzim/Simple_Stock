@@ -1,11 +1,54 @@
+import boto3
 import sqlite3
+from botocore.exceptions import NoCredentialsError
+
+# Define your S3 bucket and database file name
+S3_BUCKET = 'simplestock-db'
+DATABASE_FILE = 'SimpleStock.db'
+
+def get_s3_client():
+    return boto3.client('s3')
+
+def download_database_from_s3():
+    try:
+        s3 = get_s3_client()
+        s3.download_file(S3_BUCKET, DATABASE_FILE, DATABASE_FILE)
+        return True
+    except NoCredentialsError as e:
+        print(f"Error: {e}. Please provide valid AWS credentials.")
+        return False
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return False
+
+def upload_database_to_s3():
+    try:
+        s3 = get_s3_client()
+        s3.upload_file(DATABASE_FILE, S3_BUCKET, DATABASE_FILE)
+        return True
+    except NoCredentialsError as e:
+        print(f"Error: {e}. Please provide valid AWS credentials.")
+        return False
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return False
 
 def connect_db():
+    if not download_database_from_s3():
+        return None
+
     try:
-        return sqlite3.connect('SimpleStock.db', timeout=10)
+        return sqlite3.connect(DATABASE_FILE, timeout=10)
     except sqlite3.Error as e:
         print(f"An error occurred while connecting to the database: {e}")
         return None
+
+def update_database_on_s3():
+    if upload_database_to_s3():
+        print("Database updated on S3 successfully.")
+    else:
+        print("Failed to update database on S3. Please check for errors.")
+
 
 def search_clients(query):
     conn = connect_db()
