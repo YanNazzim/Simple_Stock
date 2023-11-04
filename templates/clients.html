@@ -22,7 +22,6 @@
     <table class="table">
       <thead>
         <tr>
-          <th><strong>Client ID</strong></th>
           <th><strong>Name</strong></th>
           <th><strong>Phone Number</strong></th>
           <th><strong>Address</strong></th>
@@ -33,7 +32,6 @@
       <tbody>
         {% for client in clients %}
         <tr>
-          <td id="tdOdd"><strong>{{ client[0] }}</strong></td>
           <td id="tdEven"><strong>{{ client[1] }}</strong></td>
           <td id="tdOdd"><strong>{{ client[2] }}</strong></td>
           <td id="tdEven"><strong>{{ client[3] }}</strong></td>
@@ -92,7 +90,7 @@
       }
     </script>
 
-    <a href="{{ url_for('add_client') }}" class="btn btn-success">Add Client</a>
+    <a id="addClientBTN" href="{{ url_for('add_client') }}" class="btn btn-success">Add Client</a>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </body>

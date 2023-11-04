@@ -9,6 +9,7 @@ body {
 h1, h2 {
     text-align: center;
     color: white !important;
+    justify-content: center;
 }
 
 #mainH1 {
@@ -23,11 +24,38 @@ label {
 }
 
 #name, #description, #price ,#quantity, 
-#phoneNumber, #address, #balance, #username, #pin {
+#address, #balance, #username, #pin {
+    display: flexwrap;
+    width: 95%;
+    padding-top: 50px;
+    margin-left: 10%;
+}
+
+#phoneNumber {
     display: flex;
     width: 75%;
-    margin: auto;
-    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+    margin-left: 3%;
+}
+
+#phoneNumberInput, #nameInput, #balanceInput, #addressInput {
+    display: flex;
+    width: 75%;
+    align-items: center;
+    padding-top: 50px;
+    margin-left: 5%;
+    text-align: center;
+}
+#phoneNumberInput {
+    width: 95%;
+    margin-left: 15.5%;
+}
+
+#product-nameInput, #product-descriptionInput, #product-priceInput,
+#product-quantityInput {
+    margin-left: 5%;
+    width: 90%;
 }
 
 #indexBTN {
@@ -45,7 +73,23 @@ label {
     font-size: larger;
     font-weight: bold;
     display: inline-block;
+    margin-left: 2%;
+    margin-top: 2%;
+    margin-bottom: 15px;
 }
+
+#addClientBTN {
+    margin-left: 39%;
+    font-size: larger;
+    font-weight: bolder;
+    margin-top: 5%;
+}
+
+#saveChanges {
+    margin-left: 39%;
+    font-size: larger;
+    font-weight: bolder;
+    margin-top: 5%;}
 
 th {
     border-bottom: solid black 2px;
@@ -53,15 +97,27 @@ th {
 }
 
 #tdOdd {
-    background-color: #6f94a7;
-    padding: 5px;
+    background-color: #b9d5e2;
     color: black !important;
-    border: solid white 3px;
+    border: solid white 1.5px;
+    text-align: center;
+    border-style: dotted;
 }
 
 #tdEven {
-    background-color: #bbbbbb;
-    padding: 5px;
+    background-color: #cfcfcf;
     color: black !important;
-    border: solid white 3px;
+    text-align: center;
+    border: solid white 1.5px;
+    border-style: dotted;
+}
+
+#clientForm {
+    display: flexbox;
+    text-align: left;
+    justify-content: center;
+}
+#client-form-group, #form-control {
+    display: block;
+    padding-bottom: 25px;
 }

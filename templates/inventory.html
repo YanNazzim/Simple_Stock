@@ -18,32 +18,34 @@
       >Back to Home</a
     >
 
+
     <h1><strong>Inventory</strong></h1>
     <h2>Click/Tap on a Product Name to Edit</h2>
     <table class="table">
       <thead>
         <tr>
-          <th><strong>Product ID</strong></th>
           <th><strong>Name</strong></th>
           <th><strong>Description</strong></th>
           <th><strong>Price</strong></th>
           <th><strong>Quantity</strong></th>
+          <th><strong>Actions</strong></th>
         </tr>
       </thead>
       <tbody>
         {% for item in inventory %}
         <tr>
-          <td id="tdOdd"><strong>{{ item[0] }}</strong></td>
           <td id="tdEven">
-            <a href="{{ url_for('edit_product', product_id=item[0]) }}">
               <strong>{{ item[1] }}</strong>
-              </a>
           </td>
           <td id="tdOdd"><strong>{{ item[2] }}</strong></td>
           <td id="tdEven"><strong>{{ item[3] }}</strong></td>
           <td id="tdOdd"><strong>{{ item[4] }}</strong></td>
           <td id="tdEven">
             <form method="POST" action="/delete_product/{{ item[0] }}">
+              
+              <a class="btn btn-success" href="{{ url_for('edit_product', product_id=item[0]) }}">
+                <strong style="color: white; width: 45px;">Edit</strong>
+              </a>
               <button
                 type="button"
                 class="btn btn-danger"
@@ -52,6 +54,7 @@
                 Delete
               </button>
             </form>
+
           </td>
         </tr>
         {% endfor %}
@@ -80,6 +83,7 @@
           id="name"
           name="name"
           required
+          style="width: 85%;"
         />
       </div>
       <div class="form-group">
@@ -89,6 +93,7 @@
           class="form-control"
           id="description"
           name="description"
+          style="width: 85%;"
           required
         />
       </div>
@@ -101,6 +106,7 @@
           class="form-control"
           id="price"
           name="price"
+          style="width: 85%;"
           required
         />
       </div>
@@ -111,10 +117,11 @@
           class="form-control"
           id="quantity"
           name="quantity"
+          style="width: 85%;"
           required
         />
       </div>
-      <button type="submit" class="btn btn-primary">Add Product</button>
+      <button id="addClientBTN" type="submit" class="btn btn-success">Add Product</button>
     </form>
   </body>
 </html>
