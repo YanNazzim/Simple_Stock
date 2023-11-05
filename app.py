@@ -24,7 +24,6 @@ def login():
     # Render the login page for GET requests
     return render_template('login.html')
 
-
 @app.route('/logout', methods=['POST'])
 def logout():
     return redirect(url_for('login'))
@@ -43,7 +42,6 @@ def register_user():
         return redirect(url_for('login'))  
     except Exception as e:
         return f"An error occurred: {e}"
-
 
 @app.route('/dashboard')
 def dashboard():
@@ -71,6 +69,61 @@ def clients():
         clients = get_all_clients()
     return render_template('clients.html', clients=clients)
 
+@app.route('/add_client', methods=['GET', 'POST'])
+def add_client():
+    if request.method == 'POST':
+        name = request.form['name']
+        phone_number = request.form['phoneNumber']
+        address = request.form.get('address', None)  # Address is optional
+        balance = request.form['balance']
+        
+        try:
+            add_client_to_db(name, phone_number, address, balance)
+            return redirect(url_for('clients', client_id=get_last_client_id()))
+        except Exception as e:
+            return f"An error occurred: {e}"
+
+    return render_template('add_client.html')
+
+@app.route('/delete_client/<int:client_id>', methods=['GET'])
+def delete_client(client_id):
+    try:
+        delete_client_from_db(client_id)
+        return redirect(url_for('clients'))
+    except Exception as e:
+        return f"An error occurred: {e}"
+
+@app.route('/edit_client/<int:client_id>', methods=['GET', 'POST'])
+def edit_client(client_id):
+    try:
+        if request.method == 'POST':
+            # Process the form submission to save changes
+            name = request.form.get('name')
+            phone_number = request.form.get('phoneNumber')
+            address = request.form.get('address')
+            balance = float(request.form.get('balance'))  # Convert to float
+
+            print(f"Received form data - Name: {name}, Phone Number: {phone_number}, Address: {address}, Balance: {balance}")
+
+            success = update_client(client_id, name, phone_number, address, balance)
+
+            if success:
+                print(f"Client {client_id} updated successfully")
+                return redirect(url_for('clients'))  # Redirect to clients.html
+            else:
+                return "Failed to save changes", 500
+        else:
+            # Render the edit_client.html template
+            client = get_client_by_id(client_id)
+            if client is not None:
+                return render_template('edit_client.html', client=client)
+            else:
+                return "Client not found", 404
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return f"Internal Server Error: {e}", 500
+
+
 @app.route('/manage_users')
 def manage_users():
     users = get_all_users() 
@@ -84,22 +137,25 @@ def delete_user(user_id):
     else:
         return f"An error occurred: {result}"  # Display error message
 
-
-@app.route('/add_product', methods=['POST'])
+@app.route('/add_product', methods=['GET', 'POST'])
 def add_product():
-    try:
-        name = request.form['name']
-        description = request.form['description']
-        quantity = request.form['quantity']
-        price = request.form['price']
-        
-        # Call your function to add the product here
-        # Remember to handle exceptions
-        add_product_to_inventory(name, description, price, quantity)
-        
-        return redirect(url_for('inventory'))
-    except Exception as e:
-        return f"An error occurred: {e}"
+    if request.method == 'POST':
+        try:
+            name = request.form['name']
+            description = request.form['description']
+            quantity = request.form['quantity']
+            price = request.form['price']
+            
+            # Call your function to add the product here
+            # Remember to handle exceptions
+            add_product_to_inventory(name, description, price, quantity)
+            
+            return redirect(url_for('inventory'))
+        except Exception as e:
+            return f"An error occurred: {e}"
+    else:
+        return render_template('add_product.html')
+
 
 @app.route('/delete_product/<int:product_id>', methods=['POST'])
 def delete_product(product_id):
@@ -128,51 +184,23 @@ def edit_product(product_id):
     product = get_product_by_id(product_id)
     return render_template('edit_product.html', product=product)
 
-
-@app.route('/add_client', methods=['GET', 'POST'])
-def add_client():
-    if request.method == 'POST':
-        name = request.form['name']
-        phone_number = request.form['phoneNumber']
-        address = request.form.get('address', None)  # Address is optional
-        balance = request.form['balance']
-        
-        try:
-            add_client_to_db(name, phone_number, address, balance)
-            return redirect(url_for('clients', client_id=get_last_client_id()))
-        except Exception as e:
-            return f"An error occurred: {e}"
-
-    return render_template('add_client.html')
-
-def get_last_client_id():
-    conn = connect_db()
-    cursor = conn.cursor()
-    cursor.execute('SELECT MAX(ClientID) FROM Clients')
-    last_client_id = cursor.fetchone()[0]
-    conn.close()
-    return last_client_id
-
-@app.route('/delete_client/<int:client_id>', methods=['GET'])
-def delete_client(client_id):
-    try:
-        delete_client_from_db(client_id)
-        return redirect(url_for('clients'))
-    except Exception as e:
-        return f"An error occurred: {e}"
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
 @app.route('/make_payment/<int:client_id>/<float:payment_amount>', methods=['POST'])
 def make_payment(client_id, payment_amount):
     try:
         client = get_client_by_id(client_id)
         if client is not None:
             new_balance = client[4] - payment_amount
-            update_client_balance(client_id, new_balance)
-            return "Payment successful", 200
+            update_result = update_client_balance(client_id, new_balance)
+            if update_result:
+                return "Payment successful", 200
+            else:
+                return "Failed to update client balance", 500
         else:
             return "Client not found", 404
     except Exception as e:
         return f"An error occurred: {e}", 500
+
+
+
+if __name__ == '__main__':
+    app.run(debug=True)

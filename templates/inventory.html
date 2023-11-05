@@ -14,114 +14,70 @@
     />
   </head>
   <body>
-    <a id="BTN" href="{{ url_for('dashboard') }}" class="btn btn-primary"
-      >Back to Home</a
-    >
+    <div class="container mt-5">
+      <a id="BTN" href="{{ url_for('dashboard') }}" class="btn btn-primary"
+        >Back to Home</a
+      >
 
-
-    <h1><strong>Inventory</strong></h1>
-    <h2>Click/Tap on a Product Name to Edit</h2>
-    <table class="table">
-      <thead>
-        <tr>
-          <th><strong>Name</strong></th>
-          <th><strong>Description</strong></th>
-          <th><strong>Price</strong></th>
-          <th><strong>Quantity</strong></th>
-          <th><strong>Actions</strong></th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for item in inventory %}
-        <tr>
-          <td id="tdEven">
+      <h1><strong>Inventory</strong></h1>
+      <h2>Click/Tap on a Product Name to Edit</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th><strong>Name</strong></th>
+            <th><strong>Description</strong></th>
+            <th><strong>Price</strong></th>
+            <th><strong>Quantity</strong></th>
+            <th><strong>Actions</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in inventory %}
+          <tr>
+            <td id="tdEven">
               <strong>{{ item[1] }}</strong>
-          </td>
-          <td id="tdOdd"><strong>{{ item[2] }}</strong></td>
-          <td id="tdEven"><strong>{{ item[3] }}</strong></td>
-          <td id="tdOdd"><strong>{{ item[4] }}</strong></td>
-          <td id="tdEven">
-            <form method="POST" action="/delete_product/{{ item[0] }}">
-              
-              <a class="btn btn-success" href="{{ url_for('edit_product', product_id=item[0]) }}">
-                <strong style="color: white; width: 45px;">Edit</strong>
-              </a>
-              <button
-                type="button"
-                class="btn btn-danger"
-                onclick='confirmDelete("{{ item[0] }}")'
-              >
-                Delete
-              </button>
-            </form>
+            </td>
+            <td id="tdOdd"><strong>{{ item[2] }}</strong></td>
+            <td id="tdEven"><strong>{{ item[3] }}</strong></td>
+            <td id="tdOdd"><strong>{{ item[4] }}</strong></td>
+            <td id="tdEven">
+              <form method="POST" action="/delete_product/{{ item[0] }}">
+                <a
+                  class="btn btn-primary"
+                  href="{{ url_for('edit_product', product_id=item[0]) }}"
+                >
+                  <strong style="color: white; width: 45px">Edit</strong>
+                </a>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  onclick='confirmDelete("{{ item[0] }}")'
+                >
+                  Delete
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
 
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-
-    <script>
-      function confirmDelete(productID) {
-        var result = confirm("Are you sure you want to delete this product?");
-        if (result) {
-          // If user confirms, submit the form
-          document
-            .querySelector('form[action="/delete_product/' + productID + '"]')
-            .submit();
+      <script>
+        function confirmDelete(productID) {
+          var result = confirm("Are you sure you want to delete this product?");
+          if (result) {
+            // If user confirms, submit the form
+            document
+              .querySelector('form[action="/delete_product/' + productID + '"]')
+              .submit();
+          }
         }
-      }
-    </script>
+      </script>
 
-    <h2>Add Product</h2>
-    <form id="addProductForm" method="POST" action="/add_product">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="name"
-          name="name"
-          required
-          style="width: 85%;"
-        />
-      </div>
-      <div class="form-group">
-        <label for="description">Description</label>
-        <input
-          type="text"
-          class="form-control"
-          id="description"
-          name="description"
-          style="width: 85%;"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="price">Price ($)</label>
-        <input
-          type="number"
-          step=".01"
-          min=".01"
-          class="form-control"
-          id="price"
-          name="price"
-          style="width: 85%;"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="quantity">Quantity</label>
-        <input
-          type="number"
-          class="form-control"
-          id="quantity"
-          name="quantity"
-          style="width: 85%;"
-          required
-        />
-      </div>
-      <button id="addClientBTN" type="submit" class="btn btn-success">Add Product</button>
-    </form>
+      <a id="addClientBTN" href="{{ url_for('add_product') }}" class="btn btn-success">
+        Add Product
+      </a>
+
+    </div>
   </body>
 </html>

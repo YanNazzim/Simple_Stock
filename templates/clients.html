@@ -14,6 +14,8 @@
     />
   </head>
   <body>
+    <div class="container mt-5">
+
     <a id="BTN" href="{{ url_for('dashboard') }}" class="btn btn-primary"
       >Back to Home</a
     >
@@ -37,12 +39,12 @@
           <td id="tdEven"><strong>{{ client[3] }}</strong></td>
           <td id="tdOdd"><strong>{{ client[4] }}</strong></td>
           <td id="tdEven">
-            <button
-              class="btn btn-success"
-              onclick='makePayment("{{ client[0] }}")'
+            <a
+              class="btn btn-primary"
+              href="{{ url_for('edit_client', client_id=client[0]) }}"
+              style="color: white"
+              ><strong>Edit</strong></a
             >
-              Payment
-            </button>
             <a
               href="{{ url_for('delete_client', client_id=client[0]) }}"
               class="btn btn-danger"
@@ -55,43 +57,14 @@
       </tbody>
     </table>
 
-    <script>
-      function makePayment(clientId) {
-        var paymentAmount = prompt("Enter the payment amount:");
-        if (paymentAmount !== null) {
-          paymentAmount = parseFloat(paymentAmount);
-          if (!isNaN(paymentAmount) && paymentAmount > 0) {
-            // Send an AJAX request to update the client's balance
-            var xhr = new XMLHttpRequest();
-            xhr.open(
-              "POST",
-              "/make_payment/" + clientId + "/" + paymentAmount,
-              true
-            );
-            xhr.setRequestHeader(
-              "Content-Type",
-              "application/x-www-form-urlencoded"
-            );
-            xhr.onreadystatechange = function () {
-              if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                  alert("Payment successful!");
-                  location.reload(); // Reload the page to reflect the updated balance
-                } else {
-                  alert("An error occurred while processing the payment.");
-                }
-              }
-            };
-            xhr.send();
-          } else {
-            alert("Invalid amount. Please enter a positive number.");
-          }
-        }
-      }
-    </script>
-
-    <a id="addClientBTN" href="{{ url_for('add_client') }}" class="btn btn-success">Add Client</a>
+    <a
+      id="addClientBTN"
+      href="{{ url_for('add_client') }}"
+      class="btn btn-success"
+      >Add Client</a
+    >
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </div>
   </body>
 </html>

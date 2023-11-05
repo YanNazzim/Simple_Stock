@@ -14,68 +14,70 @@
     />
   </head>
   <body>
-    <a id="BTN" href="{{ url_for('dashboard') }}" class="btn btn-primary"
-      >Back to Home</a
-    >
-    <a id="BTN" href="{{ url_for('inventory') }}" class="btn btn-primary"
-      >Back to Inventory</a
-    >
-    <h1><strong>Edit Product</strong></h1>
+    <div class="container mt-5">
+      <a id="BTN" href="{{ url_for('dashboard') }}" class="btn btn-primary"
+        >Back to Home</a
+      >
+      <a id="BTN" href="{{ url_for('inventory') }}" class="btn btn-primary"
+        >Back to Inventory</a
+      >
+      <h1><strong>Edit Product</strong></h1>
 
-    <form
-      id="editProductForm"
-      method="POST"
-      action="/edit_product/{{ product[0] }}"
-    >
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="product-nameInput"
-          name="name"
-          value="{{ product[1] }}"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="description">Description</label>
-        <input
-          type="text"
-          class="form-control"
-          id="product-descriptionInput"
-          name="description"
-          value="{{ product[2] }}"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="price">Price ($)</label>
-        <input
-          type="number"
-          step=".01"
-          min=".01"
-          class="form-control"
-          id="product-priceInput"
-          name="price"
-          value="{{ product[3] }}"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="quantity">Quantity</label>
-        <input
-          type="number"
-          class="form-control"
-          id="product-quantityInput"
-          name="quantity"
-          value="{{ product[4] }}"
-          required
-        />
-      </div>
-      <button id="saveChanges" type="submit" class="btn btn-success">
-        Save Changes
-      </button>
-    </form>
+      <form
+        id="editProductForm"
+        method="POST"
+        action="/edit_product/{{ product[0] }}"
+      >
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="product-nameInput"
+            name="name"
+            value="{{ product[1] }}"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            id="product-descriptionInput"
+            name="description"
+            value="{{ product[2] }}"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="price">Price ($)</label>
+          <input
+            type="number"
+            step=".01"
+            min=".01"
+            class="form-control"
+            id="product-priceInput"
+            name="price"
+            value="{{ product[3] }}"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="quantity">Quantity</label>
+          <input
+            type="number"
+            class="form-control"
+            id="product-quantityInput"
+            name="quantity"
+            value="{{ product[4] }}"
+            required
+          />
+        </div>
+        <button id="saveChanges" type="submit" class="btn btn-success">
+          Save Changes
+        </button>
+      </form>
+    </div>
   </body>
 </html>

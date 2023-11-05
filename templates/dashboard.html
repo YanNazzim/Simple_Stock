@@ -8,6 +8,8 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body id="InvenStory_Body">
+    <div class="container mt-5">
+
     <form action="/">
         <button type="submit" class="btn btn-danger">Sign Out</button>
     </form>
@@ -23,8 +25,7 @@
 
         <a id="indexBTN" href="{{ url_for('clients') }}" class="btn btn-primary">Clients</a>
         <a id="indexBTN" href="{{ url_for('inventory') }}" class="btn btn-primary">Inventory</a>
-        <a id="indexBTN" href="{{ url_for('manage_users') }}" class="btn btn-primary">Manage Users</a>
     </div>
-
+    </div>
 </body>
 </html>

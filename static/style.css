@@ -53,7 +53,8 @@ label {
 }
 
 #product-nameInput, #product-descriptionInput, #product-priceInput,
-#product-quantityInput {
+#product-quantityInput, #client-nameInput, #client-phoneNumberInput, #client-addressInput,
+#client-balanceInput {
     margin-left: 5%;
     width: 90%;
 }
@@ -120,4 +121,8 @@ th {
 #client-form-group, #form-control {
     display: block;
     padding-bottom: 25px;
+}
+
+.form-group-phNum {
+    display: block;
 }

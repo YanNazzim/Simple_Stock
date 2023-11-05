@@ -239,6 +239,8 @@ def update_client(client_id, name, phone_number, address, balance):
         ''', (name, phone_number, address, balance, client_id))
         
         conn.commit()
+        print(f"Client {client_id} updated successfully")
+        return True
     except Exception as e:
         print(f"An error occurred: {e}")
         if conn:
@@ -248,16 +250,25 @@ def update_client(client_id, name, phone_number, address, balance):
         if conn:
             conn.close()
 
+
 def update_client_balance(client_id, new_balance):
     conn = connect_db()
     cursor = conn.cursor()
+    
     try:
-        cursor.execute('UPDATE Clients SET Balance = ? WHERE ClientID = ?', (new_balance, client_id))
+        cursor.execute('''
+            UPDATE Clients 
+            SET Balance=?
+            WHERE ClientID = ?
+        ''', (new_balance, client_id))
+        
         conn.commit()
-    except sqlite3.Error as e:
+    except Exception as e:
         print(f"An error occurred: {e}")
         if conn:
             conn.rollback()
+        raise e
     finally:
         if conn:
             conn.close()
+
