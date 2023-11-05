@@ -19,7 +19,7 @@
         <button id="searchBTN" type="submit" class="btn btn-primary">Search</button>
     </form>
 
-    <h1 id="mainH1"> <Strong>How can I help?</Strong> </h1>
+    <h1 id="mainH1"> <Strong>How can I help, {% if username %}{{ username }}{% else %}Guest{% endif %}? </Strong> </h1>
 
     <div class="d-flex justify-content-center">
 

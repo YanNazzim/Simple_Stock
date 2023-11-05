@@ -1,7 +1,9 @@
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, redirect, render_template, request, session, url_for
 from db_functions import *
 
 app = Flask(__name__)
+app.secret_key = 'TrydentForces'
+
 
 @app.route('/')
 def index():
@@ -17,7 +19,9 @@ def login():
         user_pin = get_pin_for_username(username)
 
         if user_pin == pin:
-            return render_template('dashboard.html')
+            # Store the username in the session
+            session['username'] = username
+            return redirect(url_for('dashboard'))
         else:
             return f"An error occurred: Invalid credentials. Please try again."
 
@@ -45,7 +49,9 @@ def register_user():
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    username = session.get('username')
+    return render_template('dashboard.html', username=username)
+
 
 @app.route('/search', methods=['GET'])
 def search():

@@ -1,5 +1,7 @@
 import sqlite3
 
+from flask import Request, redirect, request, url_for
+
 def connect_db():
     try:
         return sqlite3.connect('SimpleStock.db', timeout=10)
@@ -130,6 +132,22 @@ def add_user(username, pin):
         return f"An error occurred: {e}"
     finally:
         conn.close()
+
+
+def register_user():
+    username = request.form['username']
+    pin = request.form['pin']
+    
+    # Check if the PIN meets the requirement
+    if not Request.search(r'(?=.*[A-Z])(?=.*\d{6,})', pin):
+        return "Error: PIN must contain at least 1 capital letter and 6 numbers."
+    
+    try:
+        add_user(username, pin)  
+        return redirect(url_for('login'))  
+    except Exception as e:
+        return f"An error occurred: {e}"
+
 
 
 def add_product_to_inventory(name, description, price, quantity):

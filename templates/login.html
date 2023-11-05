@@ -8,6 +8,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <div class="container mt-5">
     <h1>Login</h1>
 
     <form action="{{ url_for('login') }}" method="post">
@@ -19,10 +20,10 @@
             <label for="pin">PIN</label>
             <input type="password" class="form-control" id="pin" name="pin" required>
         </div>
-        <button id="BTN" type="submit" class="btn btn-success">Log In</button>
+        <button id="BTN" style="margin-left: 15%;" type="submit" class="btn btn-success">Log In</button>
         <a id="BTN" href="{{ url_for('register') }}" class="btn btn-info">Create Account</a>
 
     </form>
-
+</div>
 </body>
 </html>
