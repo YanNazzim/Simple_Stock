@@ -47,14 +47,14 @@
         <tbody>
           {% for client in client_results %}
           <tr>
-            <td id="tdOdd">
+            <td id="tdEven">
               <a href="{{ url_for('edit_client', client_id=client[0]) }}"
                 ><strong>{{ client[1] }}</strong></a
               >
             </td>
-            <td id="tdEven"><strong>{{ client[2] }}</strong></td>
-            <td id="tdOdd"><strong>{{ client[3] }}</strong></td>
-            <td id="tdEven"><strong>{{ client[4] }}</strong></td>
+            <td id="tdOdd"><strong>{{ client[2] }}</strong></td>
+            <td id="tdEven"><strong>{{ client[3] }}</strong></td>
+            <td id="tdOdd"><strong>{{ client[4] }}</strong></td>
           </tr>
           {% endfor %}
         </tbody>
@@ -73,14 +73,14 @@
         <tbody>
           {% for product in product_results %}
           <tr>
-            <td id="tdOdd">
+            <td id="tdEven">
               <a href="{{ url_for('edit_product', product_id=product[0]) }}">
                 <strong>{{ product[1] }}</strong>
               </a>
             </td>
-            <td id="tdEven"><strong>{{ product[2] }}</strong></td>
-            <td id="tdOdd"><strong>{{ product[3] }}</strong></td>
-            <td id="tdEven"><strong>{{ product[4] }}</strong></td>
+            <td id="tdOdd"><strong>{{ product[2] }}</strong></td>
+            <td id="tdEven"><strong>{{ product[3] }}</strong></td>
+            <td id="tdOdd"><strong>{{ product[4] }}</strong></td>
           </tr>
           {% endfor %}
         </tbody>
