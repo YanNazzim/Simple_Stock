@@ -54,7 +54,7 @@ label {
 
 #product-nameInput, #product-descriptionInput, #product-priceInput,
 #product-quantityInput, #client-nameInput, #client-phoneNumberInput, #client-addressInput,
-#client-balanceInput {
+#client-balanceInput, #reg-usernameInput, #reg-pinInput {
     margin-left: 5%;
     width: 90%;
 }

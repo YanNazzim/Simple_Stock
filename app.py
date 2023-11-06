@@ -1,3 +1,5 @@
+import json
+import re
 from flask import Flask, redirect, render_template, request, session, url_for
 from db_functions import *
 
@@ -23,10 +25,12 @@ def login():
             session['username'] = username
             return redirect(url_for('dashboard'))
         else:
-            return f"An error occurred: Invalid credentials. Please try again."
+            error_message = "Invalid credentials. Please try again."
+            return render_template('login.html', error_message=error_message)
 
     # Render the login page for GET requests
     return render_template('login.html')
+
 
 @app.route('/logout', methods=['POST'])
 def logout():
@@ -41,17 +45,21 @@ def register_user():
     username = request.form['username']
     pin = request.form['pin']
     
+    # Check if the PIN meets the requirement
+    if not re.search(r'(?=.*[A-Z])(?=.*\d{6,})', pin):
+        error_message = 'PIN must contain at least 1 capital letter and 6 numbers.'
+        return render_template('register.html', error_message=error_message)
+    
     try:
         add_user(username, pin)  
         return redirect(url_for('login'))  
     except Exception as e:
-        return f"An error occurred: {e}"
+        return render_template('register.html', error_message=f"An error occurred: {e}")
 
 @app.route('/dashboard')
 def dashboard():
     username = session.get('username')
     return render_template('dashboard.html', username=username)
-
 
 @app.route('/search', methods=['GET'])
 def search():
@@ -129,7 +137,6 @@ def edit_client(client_id):
         print(f"An error occurred: {e}")
         return f"Internal Server Error: {e}", 500
 
-
 @app.route('/manage_users')
 def manage_users():
     users = get_all_users() 
@@ -161,7 +168,6 @@ def add_product():
             return f"An error occurred: {e}"
     else:
         return render_template('add_product.html')
-
 
 @app.route('/delete_product/<int:product_id>', methods=['POST'])
 def delete_product(product_id):
@@ -205,8 +211,6 @@ def make_payment(client_id, payment_amount):
             return "Client not found", 404
     except Exception as e:
         return f"An error occurred: {e}", 500
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)

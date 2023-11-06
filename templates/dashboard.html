@@ -1,31 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>InvenStory</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body id="InvenStory_Body">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body id="InvenStory_Body">
     <div class="container mt-5">
-
-    <form action="/">
+      <form action="/">
         <button type="submit" class="btn btn-danger">Sign Out</button>
-    </form>
-    
-    <form action="/search" method="GET" class="form-inline mt-3">
-        <input id="searchTXT" type="text" class="form-control mr-2" name="query" placeholder="Search...">
-        <button id="searchBTN" type="submit" class="btn btn-primary">Search</button>
-    </form>
+      </form>
 
-    <h1 id="mainH1"> <Strong>How can I help, {% if username %}{{ username }}{% else %}Guest{% endif %}? </Strong> </h1>
+      <form action="/search" method="GET" class="form-inline mt-3">
+        <input
+          id="searchTXT"
+          type="text"
+          class="form-control mr-2"
+          name="query"
+          placeholder="Search..."
+        />
+        <button id="searchBTN" type="submit" class="btn btn-primary">
+          Search
+        </button>
+      </form>
 
-    <div class="d-flex justify-content-center">
+      <h1 id="mainH1">
+        <strong
+          >Hey {% if username %}{{ username }}{% else %}Guest{% endif %}, How
+          can I help?
+        </strong>
+      </h1>
 
-        <a id="indexBTN" href="{{ url_for('clients') }}" class="btn btn-primary">Clients</a>
-        <a id="indexBTN" href="{{ url_for('inventory') }}" class="btn btn-primary">Inventory</a>
+      <div class="d-flex justify-content-center">
+        <a id="indexBTN" href="{{ url_for('clients') }}" class="btn btn-primary"
+          >Clients</a
+        >
+        <a
+          id="indexBTN"
+          href="{{ url_for('inventory') }}"
+          class="btn btn-primary"
+          >Inventory</a
+        >
+      </div>
     </div>
-    </div>
-</body>
+  </body>
 </html>

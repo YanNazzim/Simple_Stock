@@ -1,29 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <div class="container mt-5">
-    <h1>Login</h1>
+      <h1>Login</h1>
 
-    <form action="{{ url_for('login') }}" method="post">
+      {% if error_message %}
+      <div class="alert alert-danger">
+        <strong>Error:</strong> {{ error_message }}
+      </div>
+      {% endif %}
+
+      <form action="{{ url_for('login') }}" method="post">
         <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" name="username" required>
+          <label for="username">Username</label>
+          <input
+            type="text"
+            class="form-control"
+            id="reg-usernameInput"
+            name="username"
+            required
+          />
         </div>
         <div class="form-group">
-            <label for="pin">PIN</label>
-            <input type="password" class="form-control" id="pin" name="pin" required>
+          <label for="pin">PIN</label>
+          <input
+            type="password"
+            class="form-control"
+            id="reg-pinInput"
+            name="pin"
+            required
+          />
         </div>
-        <button id="BTN" style="margin-left: 15%;" type="submit" class="btn btn-success">Log In</button>
-        <a id="BTN" href="{{ url_for('register') }}" class="btn btn-info">Create Account</a>
-
-    </form>
-</div>
-</body>
+        <button
+          id="BTN"
+          style="margin-left: 15%"
+          type="submit"
+          class="btn btn-success"
+        >
+          Log In
+        </button>
+        <a id="BTN" href="{{ url_for('register') }}" class="btn btn-info"
+          >Create Account</a
+        >
+      </form>
+    </div>
+  </body>
 </html>
